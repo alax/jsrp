@@ -197,6 +197,10 @@ class SRP
 
 		return result
 
+	generateSalt: (callback) ->
+		crypto.randomBytes 32, (err, resultBuf) ->
+			callback err, resultBuf
+
 	# This is used to ensure that values are not zero when mod N.
 	isZeroWhenModN: (thisBigInt) ->
 		return thisBigInt.mod(@params.N).equals(BigInteger.ZERO)

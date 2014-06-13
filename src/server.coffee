@@ -10,7 +10,7 @@ class Server
 
 	init: (options, callback) ->
 		@vBuf = new Buffer options.verifier, 'hex'
-		@saltBuf = new Buffer options.salt
+		@saltBuf = new Buffer options.salt, 'hex'
 
 		@srp.b (err, b) =>
 			@bInt = b

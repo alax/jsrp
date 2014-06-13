@@ -79,14 +79,19 @@ class Client
 	getSharedKey: () ->
 		return @KBuf.toString 'hex'
 
-	createVerifier: (options) ->
+	createVerifier: (options, callback) ->
 		@IBuf = new Buffer options.username
 		@PBuf = new Buffer options.password
-		@saltBuf = new Buffer options.salt
 
-		result = @srp.v I: @IBuf, P: @PBuf, salt: @saltBuf
-		result = result.toString 'hex'
+		@srp.generateSalt (err, salt) =>
+			@saltBuf = salt
 
-		return result;
+			result = @srp.v I: @IBuf, P: @PBuf, salt: @saltBuf
+			result = result.toString 'hex'
+
+			callback null, result
+
+	getSalt: ->
+		return @saltBuf.toString 'hex'
 
 module.exports = Client;
