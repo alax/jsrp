@@ -17,6 +17,19 @@ class Server
 
 			callback()
 
+	debugInit: (options, callback) ->
+		@vBuf = new Buffer options.verifier, 'hex'
+		@saltBuf = new Buffer options.salt, 'hex'
+
+		length = options.length || 4096;
+		@srp = new SRP length
+
+		@bInt = transform.buffer.toBigInteger options.b
+		@BBuf = @srp.B b: @bInt, v: transform.buffer.toBigInteger @vBuf
+
+		callback()
+
+
 	getPublicKey: () ->
 		return @BBuf.toString 'hex'
 

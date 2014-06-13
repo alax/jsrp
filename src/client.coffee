@@ -22,7 +22,11 @@ class Client
 	debugInit: (options, callback) ->
 		@IBuf = new Buffer options.username
 		@PBuf = new Buffer options.password
-		@aInt = options.a
+
+		length = options.length || 4096;
+		@srp = new SRP length
+
+		@aInt = transform.buffer.toBigInteger options.a
 		@ABuf = @srp.A a: @aInt
 
 		callback()
