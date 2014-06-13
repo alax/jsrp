@@ -80,7 +80,7 @@ The example will run in Node or the browser, JSRP is completely compatible with 
 `Client` methods:
 
 - **`init(options, callback)`**
-	- `options` should be an object containing a username and a password. { username: 'username', password: 'password' }. You may also pass a length property, which will allow you to select  the size of your parameters. It defaults to 4096.
+	- `options` should be an object containing a username and a password. `{ username: 'username', password: 'password' }`. You may also pass a length property, which will allow you to select  the size of your parameters. It defaults to 4096.
 	- `callback` will be called when the client instance is ready to use.
 - **`getPublicKey() -> Hex A value`**
 	- Return the hex representation of the client's ***A*** value, suitable for sending over the network.
@@ -97,8 +97,8 @@ The example will run in Node or the browser, JSRP is completely compatible with 
 - **`getSalt() -> Hex salt`**
 	- The hex value of the salt generated from `createVerifier()` (see next item), or the salt that was passed via setSalt()
 - **`createVerifier(options, callback) -> Hex V value`**
-	- `options` should be an object containing a username and password. Ex: { username: 'username', password: 'password' }
-	- `callback` will be called once the verifier has been created, with two values, `err`, and `object`, where `object` looks like { verifier: HEX_STRING, salt: HEX_STRING) and is suitable for transmission to the server.
+	- `options` should be an object containing a username and password. Ex: `{ username: 'username', password: 'password' }`
+	- `callback` will be called once the verifier has been created, with two values, `err`, and `object`, where `object` looks like `{ verifier: HEX_STRING, salt: HEX_STRING }` and is suitable for transmission to the server.
 	
 `Server` methods:
 
@@ -118,7 +118,7 @@ The example will run in Node or the browser, JSRP is completely compatible with 
 - **`getProof() -> Hex M2 value`**
 	- The server's ***M2*** value as a hex string, suitable for transmission to the client. *This can only be called after `checkClientProof()`*.
 	
-In either scenario, if you'd like to interact with the SRP protocol implementation directly, the SRP object will be available on the client/server object after running init. You can access it using `clientObj.srp` or `serverObj.srp`. The intermediate values calculated by the client and server are also available on the objects themselves as well.
+In either scenario, if you'd like to interact with the SRP protocol implementation directly, the SRP object will be available on the client/server object after running `init()`. You can access it using `clientObj.srp` or `serverObj.srp`. The intermediate values calculated by the client and server are also available on the objects themselves as well.
 
 ## Testing
 
