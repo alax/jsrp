@@ -10,7 +10,9 @@ JSRP was written to make SRP simple to implement and work with from the browser 
 
 To use JSRP in the browser, first add the script:
 
-	<script type="text/javascript" src="jsrp-browser.js"></script>
+```html
+<script type="text/javascript" src="jsrp-browser.js"></script>
+```
 	
 To use JSRP in Node, simply run:
 
@@ -26,54 +28,59 @@ JSRP will be available from the `jsrp` global.
 
 Just require the module:
 
-	var jsrp = require('jsrp');
+```javascript
+var jsrp = require('jsrp');
+```
 	
 ## Example
 
 The example will run in Node or the browser, JSRP is completely compatible with both.
 
 **Example Registration Process:**
-	
-	var client = new jsrp.client();
-	
-	// Client does not need to be initialized to call createVerifier.
-	
-	client.createVerifier({ username: 'testUser', password: 'password123' }, function(err, result) {
-		// result will contain the necessary values the server needs to
-		// authenticate this user in the future.
-		sendSaltToServer(result.salt);
-		sendVerifierToServer(result.verifier);
-	});
 
+```javascript
+var client = new jsrp.client();
+	
+// Client does not need to be initialized to call createVerifier.
+	
+client.createVerifier({ username: 'testUser', password: 'password123' }, function(err, result) {
+	// result will contain the necessary values the server needs to
+	// authenticate this user in the future.
+	sendSaltToServer(result.salt);
+	sendVerifierToServer(result.verifier);
+});
+```
 
 **Example Login Process:** (normally client and server wouldn't be in the same code, but the example is this way for the sake of brevity)
 
-	var client = new jsrp.client();
-	var server = new jsrp.server();
+```javascript
+var client = new jsrp.client();
+var server = new jsrp.server();
 	
-	client.init({ username: 'username', password: 'password123' }, function() {
-		// Client instance is ready to be used here.
-	});
+client.init({ username: 'username', password: 'password123' }, function() {
+	// Client instance is ready to be used here.
+});
 	
-	server.init({ salt: 'LONG_HEX_VALUE', verifier: 'EVEN_LONGER_HEX_VALUE' }, function () {
-		// Server instance is ready to be used here.
-	});
+server.init({ salt: 'LONG_HEX_VALUE', verifier: 'EVEN_LONGER_HEX_VALUE' }, function () {
+	// Server instance is ready to be used here.
+});
 	
-	// Remember, both client and server must have called their
-	// init() callback before you can continue using them. The
-	// following functions would normally be called inside that
-	// callback.
+// Remember, both client and server must have called their
+// init() callback before you can continue using them. The
+// following functions would normally be called inside that
+// callback.
 
-	cPubKey = client.getPublicKey();
-	server.setClientPublicKey(cPubKey);
+cPubKey = client.getPublicKey();
+server.setClientPublicKey(cPubKey);
 
-	salt = server.getSalt();
-	client.setSalt(salt);
+salt = server.getSalt();
+client.setSalt(salt);
 
-	sPubKey = server.getPublicKey();
-	client.setServerPublicKey(sPubKey);
+sPubKey = server.getPublicKey();
+client.setServerPublicKey(sPubKey);
 
-	client.getSharedKey() === server.getSharedKey() // will be true
+client.getSharedKey() === server.getSharedKey() // will be true
+```
 	
 ## API Reference
 
