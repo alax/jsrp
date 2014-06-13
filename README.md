@@ -87,11 +87,11 @@ The example will run in Node or the browser, JSRP is completely compatible with 
 - **`setSalt(salt)`**
 	- `salt` should be the hex string obtained from `Server.getSalt()`, this sets the client's internal salt value for later computations.
 - **`setServerPublicKey(serverPublicKey)`**
-	- `serverPublicKey` should be the hex representation of the server's B value, as returned from `Server.getPublicKey()`. When this function is called, provided the publicKey is valid, the client instance will compute the rest of the values needed internally to complete authentication. *This will throw an error if the server provides an incorrect value, authentication **MUST** be aborted here.*
+	- `serverPublicKey` should be the hex representation of the server's ***B*** value, as returned from `Server.getPublicKey()`. When this function is called, provided the publicKey is valid, the client instance will compute the rest of the values needed internally to complete authentication. *This will throw an error if the server provides an incorrect value, authentication MUST be aborted here.*
 - **`getSharedKey() -> Hex K value`**
 	- The hex representation of the computed secret shared key, suitable for external crypto usage.
 - **`getProof() -> Hex M1 value`**
-	- Client's M1 value as a hex string, suitable for transmission to the server.
+	- Client's ***M1*** value as a hex string, suitable for transmission to the server.
 - **`checkServerProof(serverProof) -> Boolean`**
 	- Returns true if `serverProof` matches the client's own proof computation, false if it doesn't. `serverProof` can be obtained from `Server.getProof()`. *This can only be called after `getProof()`*.
 - **`getSalt() -> Hex salt`**
@@ -110,13 +110,13 @@ The example will run in Node or the browser, JSRP is completely compatible with 
 - **`getSalt() -> Hex salt value`**
 	- Return the salt value (this will be the same value passed to `init()`)
 - **`setClientPublicKey(clientPublicKey)`**
-	- `clientPublicKey` should be the hex value returned from `Client.getPublicKey()`. Assuming it's valid, the server will then compute the values necessary to complete authentication internally. *This will throw an error if the client provides an incorrect value, authentication **MUST** be aborted here.*
+	- `clientPublicKey` should be the hex value returned from `Client.getPublicKey()`. Assuming it's valid, the server will then compute the values necessary to complete authentication internally. *This will throw an error if the client provides an incorrect value, authentication MUST be aborted here.*
 - **`getSharedKey() -> Hex K value`**
 	- The secret shared key suitable for further crypto operations.
 - **`checkClientProof(clientProof) -> Boolean`**
 	- Returns true if `clientProof` matches the server's own proof computation, false if it doesn't. If this value is true, then the client has provided the correct password, and can be considered authenticated. If it's false, the client used the wrong password. `clientProof` is the hex string obtained from `Client.getProof()`
 - **`getProof() -> Hex M2 value`**
-	- The server's M2 value as a hex string, suitable for transmission to the client. *This can only be called after `checkClientProof()`*.
+	- The server's ***M2*** value as a hex string, suitable for transmission to the client. *This can only be called after `checkClientProof()`*.
 	
 In either scenario, if you'd like to interact with the SRP protocol implementation directly, the SRP object will be available on the client/server object after running init. You can access it using `clientObj.srp` or `serverObj.srp`. The intermediate values calculated by the client and server are also available on the objects themselves as well.
 
