@@ -72,7 +72,7 @@ class SRP
 
 		return result
 
-	# B = (v + g^b) % N
+	# B = (kv + g^b) % N
 	B: (options) ->
 		# Expects v, which should be the client verifier BigInteger, and b,
 		# which should be a random BigInteger
@@ -81,7 +81,7 @@ class SRP
 
 		# This actually ends up being (v + (g^b % N)) % N, this is the way
 		# everyone else is doing it, so it's the way we're gonna do it.
-		result = v.add(@params.g.modPow(b, @params.N), @params.N).mod(@params.N)
+		result = @k().multiply(v).add(@params.g.modPow(b, @params.N)).mod(@params.N)
 		result = transform.pad.toN result, @params
 
 		return result
@@ -113,7 +113,9 @@ class SRP
 
 		result = B
 			.subtract(
-				@params.g.modPow(x, @params.N)
+				@k().multiply(
+					@params.g.modPow(x, @params.N)
+				)
 			)
 			.modPow(
 				a.add(
@@ -139,6 +141,22 @@ class SRP
 			.modPow(b, @params.N)
 
 		result = transform.pad.toN result, @params
+		return result
+
+	# SRP-6 multiplier
+	# Returns BigInteger
+	k: ->
+		result = crypto
+			.createHash(@params.hash)
+			.update(
+				transform.pad.toN(@params.N, @params)
+			)
+			.update(
+				transform.pad.toN(@params.g, @params)
+			)
+			.digest()
+
+		result = transform.buffer.toBigInteger result
 		return result
 
 	K: (options) ->
