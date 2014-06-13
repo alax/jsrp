@@ -4,8 +4,8 @@ SRP = require './srp'
 # This is a high-level client interface for the SRP protocol.
 class Server
 
-	constructor: (options) ->
-		length = options?.length || 4096;
+	constructor: (length) ->
+		length = length || 4096;
 		@srp = new SRP length
 
 	init: (options, callback) ->

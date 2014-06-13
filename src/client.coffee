@@ -4,14 +4,14 @@ SRP = require './srp'
 # This is a high-level client interface for the SRP protocol.
 class Client
 
-	constructor: (options) ->
-		length = options?.length || 4096;
+	constructor: (length) ->
+		length = length || 4096;
 		@srp = new SRP length
 
 	# Init generates the "a" value and stores it.
 	init: (options, callback) ->
-		@IBuf = new Buffer options.user
-		@PBuf = new Buffer options.pass
+		@IBuf = new Buffer options.username
+		@PBuf = new Buffer options.password
 
 		@srp.a (err, a) =>
 			@aInt = a
@@ -21,8 +21,8 @@ class Client
 
 	# Over-ride random "a" selection
 	debugInit: (options, callback) ->
-		@IBuf = new Buffer options.user
-		@PBuf = new Buffer options.pass
+		@IBuf = new Buffer options.username
+		@PBuf = new Buffer options.password
 		@aInt = options.a
 		@ABuf = @srp.A a: @aInt
 
@@ -80,8 +80,8 @@ class Client
 		return @KBuf.toString 'hex'
 
 	createVerifier: (options) ->
-		@IBuf = new Buffer options.user
-		@PBuf = new Buffer options.pass
+		@IBuf = new Buffer options.username
+		@PBuf = new Buffer options.password
 		@saltBuf = new Buffer options.salt
 
 		result = @srp.v I: @IBuf, P: @PBuf, salt: @saltBuf
