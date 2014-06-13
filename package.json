@@ -2,7 +2,7 @@
   "name": "jsrp",
   "version": "0.0.1",
   "description": "JavaScript SRP implementation",
-  "main": "index.js",
+  "main": "jsrp.js",
   "scripts": {
     "test": "mocha -R spec --compilers coffee:coffee-script"
   },
