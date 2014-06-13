@@ -12,6 +12,8 @@
     "jsbn": "0.0.0"
   },
   "devDependencies": {
-    "should": "^4.0.4"
+    "should": "^4.0.4",
+    "coffee-script": "^1.7.1",
+    "mocha": "^1.20.1"
   }
 }
