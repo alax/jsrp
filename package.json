@@ -1,0 +1,17 @@
+{
+  "name": "jsrp",
+  "version": "0.0.1",
+  "description": "JavaScript SRP implementation",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R spec --compilers coffee:coffee-script"
+  },
+  "author": "Alax Villmann",
+  "license": "MIT",
+  "dependencies": {
+    "jsbn": "0.0.0"
+  },
+  "devDependencies": {
+    "should": "^4.0.4"
+  }
+}
