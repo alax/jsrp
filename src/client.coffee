@@ -89,7 +89,7 @@ class Client
 			result = @srp.v I: @IBuf, P: @PBuf, salt: @saltBuf
 			result = result.toString 'hex'
 
-			callback null, result
+			callback null, verifier: result, salt: @getSalt()
 
 	getSalt: ->
 		return @saltBuf.toString 'hex'

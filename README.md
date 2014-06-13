@@ -70,10 +70,10 @@ The example will run in Node or the browser, JSRP is completely compatible with 
 - **`checkServerProof(serverM2Value) -> boolean`**
 	- Returns true if `serverM2Value` matches the client's own M2 value computation, false if it doesn't. `serverM2Value` can be obtained from `Server.getProof()`
 - **`getSalt() -> Hex salt`**
-	- The hex value of the salt generated from `createVerifier()` (see next item)
+	- The hex value of the salt generated from `createVerifier()` (see next item), or the salt that was passed via setSalt()
 - **`createVerifier(options, callback) -> Hex V value`**
 	- `options` should be an object containing a username and password. Ex: { username: 'username', password: 'password' }
-	- `callback` will be called once the verifier has been created, with two values, `err`, and `verifier`, where `verifier` is the hex representation of `v`, suitable for transmission to the server.
+	- `callback` will be called once the verifier has been created, with two values, `err`, and `object`, where `object` looks like { verifier: HEX_STRING, salt: HEX_STRING) and is suitable for transmission to the server.
 	
 `Server` methods:
 
