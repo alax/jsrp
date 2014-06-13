@@ -49,6 +49,35 @@ The example will run in Node or the browser, JSRP is completely compatible with 
 	client.setServerPublicKey(sPubKey);
 
 	client.getSharedKey() === server.getSharedKey() // will be true
+	
+## API Reference
+
+`Client` methods:
+
+- **`init(options, callback)`**
+	- `options` should be an object containing a username and a password. { username: 'username', password: 'password' }
+	- `callback` will be called when the client instance is ready to use.
+- **`getPublicKey() -> Hex A value`**
+	- Return the hex representation of the client's A value, suitable for sending over the network.
+- **`setSalt(salt)`**
+	- `salt` should be the hex string obtained from `Server.getSalt()`, this sets the client's internal salt value for later computations.
+- **`setServerPublicKey(serverPublicKey)`**
+	- `serverPublicKey` should be the hex representation of the server's B value, as returned from `Server.getPublicKey()`
+- **`getSharedKey() -> Hex K value`**
+	- The hex representation of the computed secret shared key, suitable for external crypto usage.
+- **`getProof() -> Hex M1 value`**
+	- Client's M1 value as a hex string, suitable for transmission to the server.
+- **`checkServerProof(serverM2Value) -> boolean`**
+	- Returns true if `serverM2Value` matches the client's own M2 value computation, false if it doesn't. `serverM2Value` can be obtained from `Server.getProof()`
+- **`getSalt() -> Hex salt`**
+	- The hex value of the salt generated from `createVerifier()` (see next item)
+- **`createVerifier(options, callback) -> Hex V value`**
+	- `options` should be an object containing a username and password. Ex: { username: 'username', password: 'password' }
+	- `callback` will be called once the verifier has been created, with two values, `err`, and `verifier`, where `verifier` is the hex representation of `v`, suitable for transmission to the server.
+	
+`Server` methods:
+
+- (coming soon, just check src/server.coffee for the time being)
 
 ## Testing
 
