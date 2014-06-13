@@ -4,13 +4,12 @@ SRP = require './srp'
 # This is a high-level client interface for the SRP protocol.
 class Server
 
-	constructor: (length) ->
-		length = length || 4096;
-		@srp = new SRP length
-
 	init: (options, callback) ->
 		@vBuf = new Buffer options.verifier, 'hex'
 		@saltBuf = new Buffer options.salt, 'hex'
+
+		length = options.length || 4096;
+		@srp = new SRP length
 
 		@srp.b (err, b) =>
 			@bInt = b

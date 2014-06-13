@@ -4,14 +4,13 @@ SRP = require './srp'
 # This is a high-level client interface for the SRP protocol.
 class Client
 
-	constructor: (length) ->
-		length = length || 4096;
-		@srp = new SRP length
-
 	# Init generates the "a" value and stores it.
 	init: (options, callback) ->
 		@IBuf = new Buffer options.username
 		@PBuf = new Buffer options.password
+
+		length = options.length || 4096;
+		@srp = new SRP length
 
 		@srp.a (err, a) =>
 			@aInt = a

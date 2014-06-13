@@ -2,8 +2,8 @@ assert = require 'assert'
 should = require 'should'
 SRPClient = require '../src/client'
 SRPServer = require '../src/server'
-client = new SRPClient 4096
-server = new SRPServer 4096
+client = new SRPClient()
+server = new SRPServer()
 
 verifier = null
 
