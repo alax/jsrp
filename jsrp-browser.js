@@ -103,10 +103,8 @@ module.exports.server = _dereq_('./lib/server');
       return this.KBuf.toString('hex');
     };
 
-    Client.prototype.createVerifier = function(options, callback) {
+    Client.prototype.createVerifier = function(callback) {
       var _this = this;
-      this.IBuf = new Buffer(options.username);
-      this.PBuf = new Buffer(options.password);
       return this.srp.generateSalt(function(err, salt) {
         var result;
         _this.saltBuf = salt;
@@ -229,8 +227,8 @@ module.exports.server = _dereq_('./lib/server');
                 D5B05AA9 93B4EA98 8D8FDDC1 86FFB7DC 90A6C08F 4DF435C9 34063199\
                 FFFFFFFF FFFFFFFF'
       };
-      this.params['6244'] = {
-        length: 6244,
+      this.params['6144'] = {
+        length: 6144,
         hash: 'sha256',
         g: '05',
         N: 'FFFFFFFF FFFFFFFF C90FDAA2 2168C234 C4C6628B 80DC1CD1 29024E08\

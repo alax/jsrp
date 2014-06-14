@@ -82,10 +82,7 @@ class Client
 	getSharedKey: () ->
 		return @KBuf.toString 'hex'
 
-	createVerifier: (options, callback) ->
-		@IBuf = new Buffer options.username
-		@PBuf = new Buffer options.password
-
+	createVerifier: (callback) ->
 		@srp.generateSalt (err, salt) =>
 			@saltBuf = salt
 

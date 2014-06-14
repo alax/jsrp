@@ -41,13 +41,13 @@ The example will run in Node or the browser, JSRP is completely compatible with 
 ```javascript
 var client = new jsrp.client();
 	
-// Client does not need to be initialized to call createVerifier.
-	
-client.createVerifier({ username: 'testUser', password: 'password123' }, function(err, result) {
-	// result will contain the necessary values the server needs to
-	// authenticate this user in the future.
-	sendSaltToServer(result.salt);
-	sendVerifierToServer(result.verifier);
+client.init({ username: 'testUser', password: 'password123' }, function () {
+	client.createVerifier(function(err, result) {
+		// result will contain the necessary values the server needs to
+		// authenticate this user in the future.
+		sendSaltToServer(result.salt);
+		sendVerifierToServer(result.verifier);
+	});
 });
 ```
 
@@ -103,8 +103,8 @@ client.getSharedKey() === server.getSharedKey() // will be true
 	- Returns true if `serverProof` matches the client's own proof computation, false if it doesn't. `serverProof` can be obtained from `Server.getProof()`. *This can only be called after `getProof()`*.
 - **`getSalt() -> Hex salt`**
 	- The hex value of the salt generated from `createVerifier()` (see next item), or the salt that was passed via setSalt()
-- **`createVerifier(options, callback) -> Hex V value`**
-	- `options` should be an object containing a username and password. Ex: `{ username: 'username', password: 'password' }`
+- **`createVerifier(callback) -> Hex V value`**
+	- Generate ***v*** and ***salt*** from the values passed to `init()`
 	- `callback` will be called once the verifier has been created, with two values, `err`, and `object`, where `object` looks like `{ verifier: HEX_STRING, salt: HEX_STRING }` and is suitable for transmission to the server.
 	
 `Server` methods:
