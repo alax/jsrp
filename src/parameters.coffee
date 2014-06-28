@@ -1,6 +1,8 @@
 BigInteger = require 'jsbn'
 transform = require './transform'
 
+# These parameters are pulled directly from RFC 5054 at:
+# http://tools.ietf.org/html/rfc5054#appendix-A
 class Parameters
 
     constructor: () ->
