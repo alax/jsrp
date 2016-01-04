@@ -1,4 +1,5 @@
-BigInteger = require 'jsbn'
+jsbn = require 'jsbn'
+BigInteger = jsbn.BigInteger
 crypto = require 'crypto'
 
 transform = require './transform'
@@ -12,7 +13,7 @@ class SRP
 	# x = H(s | H(I | ":" | P))
 	# Returns bigInteger
 	x: (options) ->
-		# Options expects I, P, and salt property, where I is the identifier 
+		# Options expects I, P, and salt property, where I is the identifier
 		# and P is the password. All of these should be buffers.
 		I = options.I
 		P = options.P

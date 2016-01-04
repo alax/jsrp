@@ -1,4 +1,4 @@
-BigInteger = require 'jsbn'
+jsbn = require 'jsbn'
 transform = require './transform'
 
 # These parameters are pulled directly from RFC 5054 at:

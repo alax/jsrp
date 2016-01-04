@@ -1,4 +1,5 @@
-BigInteger = require 'jsbn'
+jsbn = require 'jsbn'
+BigInteger = jsbn.BigInteger
 
 class Transform
 
