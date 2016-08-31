@@ -8,22 +8,22 @@ JSRP was written to make SRP simple to implement and work with from the browser 
 
 ## Installation
 
-To use JSRP in the browser, first add the script:
+To use JSRP in the browser, first add the script: (it can be downloaded from the Releases page.)
 
 ```html
 <script type="text/javascript" src="jsrp-browser.js"></script>
 ```
-	
+
 To use JSRP in Node, simply run:
 
 	npm install jsrp
-	
+
 ## Usage
 
 #### Browser
-	
+
 JSRP will be available from the `jsrp` global.
-	
+
 #### Node
 
 Just require the module:
@@ -31,7 +31,7 @@ Just require the module:
 ```javascript
 var jsrp = require('jsrp');
 ```
-	
+
 ## Example
 
 The example will run in Node or the browser, JSRP is completely compatible with both.
@@ -40,7 +40,7 @@ The example will run in Node or the browser, JSRP is completely compatible with 
 
 ```javascript
 var client = new jsrp.client();
-	
+
 client.init({ username: 'testUser', password: 'password123' }, function () {
 	client.createVerifier(function(err, result) {
 		// result will contain the necessary values the server needs to
@@ -56,15 +56,15 @@ client.init({ username: 'testUser', password: 'password123' }, function () {
 ```javascript
 var client = new jsrp.client();
 var server = new jsrp.server();
-	
+
 client.init({ username: 'username', password: 'password123' }, function() {
 	// Client instance is ready to be used here.
 });
-	
+
 server.init({ salt: 'LONG_HEX_VALUE', verifier: 'EVEN_LONGER_HEX_VALUE' }, function () {
 	// Server instance is ready to be used here.
 });
-	
+
 // Remember, both client and server must have called their
 // init() callback before you can continue using them. The
 // following functions would normally be called inside that
@@ -81,7 +81,7 @@ client.setServerPublicKey(sPubKey);
 
 client.getSharedKey() === server.getSharedKey() // will be true
 ```
-	
+
 ## API Reference
 
 `Client` methods:
@@ -106,7 +106,7 @@ client.getSharedKey() === server.getSharedKey() // will be true
 - **`createVerifier(callback) -> Hex V value`**
 	- Generate ***v*** and ***salt*** from the values passed to `init()`
 	- `callback` will be called once the verifier has been created, with two values, `err`, and `object`, where `object` looks like `{ verifier: HEX_STRING, salt: HEX_STRING }` and is suitable for transmission to the server.
-	
+
 `Server` methods:
 
 - **`init(options, callback)`**
@@ -124,7 +124,7 @@ client.getSharedKey() === server.getSharedKey() // will be true
 	- Returns true if `clientProof` matches the server's own proof computation, false if it doesn't. If this value is true, then the client has provided the correct password, and can be considered authenticated. If it's false, the client used the wrong password. `clientProof` is the hex string obtained from `Client.getProof()`
 - **`getProof() -> Hex M2 value`**
 	- The server's ***M2*** value as a hex string, suitable for transmission to the client. *This can only be called after `checkClientProof()`*.
-	
+
 In either scenario, if you'd like to interact with the SRP protocol implementation directly, the SRP object will be available on the client/server object after running `init()`. You can access it using `clientObj.srp` or `serverObj.srp`. The intermediate values calculated by the client and server are also available on the objects themselves as well.
 
 ## Testing
@@ -132,13 +132,13 @@ In either scenario, if you'd like to interact with the SRP protocol implementati
 First, install the dependencies:
 
 	npm install
-	
+
 Also, you will need Mocha and CoffeeScript if you don't have them already:
 
 	npm install -g mocha coffee-script
-	
+
 Then simply run:
-	
+
 	npm test
 
 ## Browser Builds
@@ -146,13 +146,13 @@ Then simply run:
 To build JSRP for the browser, you will need Browserify and CoffeeScript:
 
 	npm install -g browserify coffee-script
-	
+
 Then run the following commands inside the JSRP directory:
 
 	coffee --compile --output lib src
 	browserify jsrp.js --standalone jsrp > jsrp-browser.js
-	
+
 ## Credits
 
 JSRP would not exist if it wasn't for Node-SRP: [https://github.com/mozilla/node-srp](https://github.com/mozilla/node-srp). They provided a solid reference implementation, but JSRP was born out of wanting a reliable browser implementation as well as server implementation.
-	
+
