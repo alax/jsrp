@@ -1,6 +1,6 @@
-jsbn = require 'jsbn'
-BigInteger = jsbn.BigInteger
-crypto = require 'crypto'
+BigInteger = require('jsbn').BigInteger
+createHash = require 'create-hash'
+randomBytes = require 'randombytes'
 
 transform = require './transform'
 parameters = require './parameters'
@@ -19,15 +19,13 @@ class SRP
 		P = options.P
 		salt = options.salt
 
-		identifierPasswordHash = crypto
-			.createHash(@params.hash)
+		identifierPasswordHash = createHash(@params.hash)
 			.update(I)
 			.update(new Buffer(':'))
 			.update(P)
 			.digest()
 
-		xHash = crypto
-			.createHash(@params.hash)
+		xHash = createHash(@params.hash)
 			.update(salt)
 			.update(identifierPasswordHash)
 			.digest()
@@ -51,13 +49,13 @@ class SRP
 
 	# Returns a random BigInteger
 	a: (callback) ->
-		crypto.randomBytes 32, (err, resultBuf) ->
+		randomBytes 32, (err, resultBuf) ->
 			result = transform.buffer.toBigInteger resultBuf
 			callback err, result
 
 	# Returns a random BigInteger
 	b: (callback) ->
-		crypto.randomBytes 32, (err, resultBuf) ->
+		randomBytes 32, (err, resultBuf) ->
 			result = transform.buffer.toBigInteger resultBuf
 			callback err, result
 
@@ -94,8 +92,7 @@ class SRP
 		A = options.A # Buffer
 		B = options.B # Buffer
 
-		result = crypto
-			.createHash(@params.hash)
+		result = createHash(@params.hash)
 			.update(A)
 			.update(B)
 			.digest()
@@ -147,8 +144,7 @@ class SRP
 	# SRP-6 multiplier
 	# Returns BigInteger
 	k: ->
-		result = crypto
-			.createHash(@params.hash)
+		result = createHash(@params.hash)
 			.update(
 				transform.pad.toN(@params.N, @params)
 			)
@@ -163,8 +159,7 @@ class SRP
 	K: (options) ->
 		S = options.S # Buffer
 
-		result = crypto
-			.createHash(@params.hash)
+		result = createHash(@params.hash)
 			.update(S)
 			.digest()
 
@@ -175,8 +170,7 @@ class SRP
 		B = options.B # Buffer
 		K = options.K # Buffer
 
-		result = crypto
-			.createHash(@params.hash)
+		result = createHash(@params.hash)
 			.update(A)
 			.update(B)
 			.update(K)
@@ -189,8 +183,7 @@ class SRP
 		M = options.M # Buffer
 		K = options.K # Buffer
 
-		result = crypto
-			.createHash(@params.hash)
+		result = createHash(@params.hash)
 			.update(A)
 			.update(M)
 			.update(K)
@@ -199,7 +192,7 @@ class SRP
 		return result
 
 	generateSalt: (callback) ->
-		crypto.randomBytes 32, (err, resultBuf) ->
+		randomBytes 32, (err, resultBuf) ->
 			callback err, resultBuf
 
 	# This is used to ensure that values are not zero when mod N.
