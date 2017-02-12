@@ -11,27 +11,24 @@ class Server
 		length = options.length || 4096;
 		@srp = new SRP length
 
-		@srp.b (err, b) =>
-			@bInt = b
+		if options.b
+			bBuf = new Buffer options.b, 'hex'
+			@bInt = transform.buffer.toBigInteger bBuf
 			@BBuf = @srp.B b: @bInt, v: transform.buffer.toBigInteger @vBuf
-
 			callback()
+		else
+			@srp.b (err, b) =>
+				@bInt = b
+				@BBuf = @srp.B b: @bInt, v: transform.buffer.toBigInteger @vBuf
 
-	debugInit: (options, callback) ->
-		@vBuf = new Buffer options.verifier, 'hex'
-		@saltBuf = new Buffer options.salt, 'hex'
-
-		length = options.length || 4096;
-		@srp = new SRP length
-
-		@bInt = transform.buffer.toBigInteger options.b
-		@BBuf = @srp.B b: @bInt, v: transform.buffer.toBigInteger @vBuf
-
-		callback()
-
+				callback()
 
 	getPublicKey: () ->
 		return @BBuf.toString 'hex'
+
+	getPrivateKey: () ->
+		bBuf = transform.bigInt.toBuffer @bInt
+		return bBuf.toString 'hex'
 
 	getSalt: () ->
 		return @saltBuf.toString 'hex'
