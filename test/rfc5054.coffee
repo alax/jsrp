@@ -55,11 +55,11 @@ describe 'RFC 5054', ->
             done
 
     it 'initialize server', (done) ->
-        server.debugInit
+        server.init
             salt: s.toString('hex'),
             verifier: v_expected.toString('hex'),
             length: 1024,
-            b: b,
+            b: b.toString('hex'),
             done
 
     it 'v', ->
