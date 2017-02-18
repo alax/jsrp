@@ -8,7 +8,24 @@ class Parameters
 
         @params = {}
 
-        @params['1024'] = 
+        @params['512'] =
+            length: 512
+            hash: 'sha1'
+            g: '02'
+            N: 'D4C7F8A2 B32C11B8 FBA9581E C4BA4F1B 04215642 EF7355E3 7C0FC044
+                3EF756EA 2C6B8EEB 755A1C72 3027663C AA265EF7 85B8FF6A 9B35227A
+                52D86633 DBDFCA43'
+
+        @params['768'] =
+            length: 768
+            hash: 'sha1'
+            g: '02'
+            N: 'B344C7C4 F8C49503 1BB4E04F F8F84EE9 50081639 40B95582 76744D91
+                F7CC9F40 2653BE71 47F00F57 6B93754B CDDF71B6 36F2099E 6FFF90E7
+                9575F3D0 DE694AFF 737D9BE9 713CEF8D 837ADA63 80B1093E 94B6A529
+                A8C6C2BE 33E0867C 60C3262B'
+
+        @params['1024'] =
             length: 1024
             hash: 'sha1'
             g: '02'
@@ -164,7 +181,7 @@ class Parameters
                 60C980DD 98EDD3DF FFFFFFFF FFFFFFFF'
 
         Object.keys(@params).forEach (key) =>
-            @params[key].N = transform.bigInt.fromHex transform.cleanHex @params[key].N 
+            @params[key].N = transform.bigInt.fromHex transform.cleanHex @params[key].N
             @params[key].g = transform.bigInt.fromHex @params[key].g
 
     get: (length) ->
