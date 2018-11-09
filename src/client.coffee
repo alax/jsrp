@@ -6,8 +6,8 @@ class Client
 
 	# Init generates the "a" value and stores it.
 	init: (options, callback) ->
-		@IBuf = new Buffer options.username
-		@PBuf = new Buffer options.password
+		@IBuf = Buffer.from options.username
+		@PBuf = Buffer.from options.password
 
 		length = options.length || 4096;
 		@srp = new SRP length
@@ -20,8 +20,8 @@ class Client
 
 	# Over-ride random "a" selection
 	debugInit: (options, callback) ->
-		@IBuf = new Buffer options.username
-		@PBuf = new Buffer options.password
+		@IBuf = Buffer.from options.username
+		@PBuf = Buffer.from options.password
 
 		length = options.length || 4096;
 		@srp = new SRP length
@@ -36,7 +36,7 @@ class Client
 
 	# Set the salt value. Salt should be provided in HEX format.
 	setSalt: (hexSalt) ->
-		@saltBuf = new Buffer hexSalt, 'hex'
+		@saltBuf = Buffer.from hexSalt, 'hex'
 
 		# Now that we have the salt, we can also calulate x.
 		@xInt = @srp.x I: @IBuf, P: @PBuf, salt: @saltBuf
@@ -44,7 +44,7 @@ class Client
 	# Set the server B value, B should be provided in hex as well.
 	# RFC 2945 states that we must abort authentication if B % N is zero.
 	setServerPublicKey: (hexB) ->
-		@BBuf = new Buffer hexB, 'hex'
+		@BBuf = Buffer.from hexB, 'hex'
 
 		BBigInt = transform.buffer.toBigInteger @BBuf
 
@@ -71,7 +71,7 @@ class Client
 
 	# Allow us to verify the server's M2 response.
 	checkServerProof: (hexM2) ->
-		ServerM2Buf = new Buffer hexM2, 'hex'
+		ServerM2Buf = Buffer.from hexM2, 'hex'
 		@M2Buf = @srp.M2 A: @ABuf, M: @M1Buf, K: @KBuf
 
 		result = @M2Buf.toString('hex') is ServerM2Buf.toString('hex')

@@ -27,7 +27,7 @@ class Transform
 		toBuffer: (bigIntegerObj) ->
 			thisHexString = @toHex bigIntegerObj
 
-			return new Buffer thisHexString, 'hex'
+			return Buffer.from thisHexString, 'hex'
 
 	class TransBuffer
 
@@ -45,7 +45,7 @@ class Transform
 			padding = length - n.length
 
 			# Check for negative padding here.
-			result = new Buffer length
+			result = Buffer.alloc length
 			result.fill 0, 0, padding
 
 			n.copy result, padding
