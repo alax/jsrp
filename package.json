@@ -1,6 +1,6 @@
 {
   "name": "jsrp",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "JavaScript SRP implementation",
   "main": "jsrp.js",
   "scripts": {
