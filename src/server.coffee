@@ -5,14 +5,14 @@ SRP = require './srp'
 class Server
 
 	init: (options, callback) ->
-		@vBuf = new Buffer options.verifier, 'hex'
-		@saltBuf = new Buffer options.salt, 'hex'
+		@vBuf = Buffer.from options.verifier, 'hex'
+		@saltBuf = Buffer.from options.salt, 'hex'
 
 		length = options.length || 4096;
 		@srp = new SRP length
 
 		if options.b
-			bBuf = new Buffer options.b, 'hex'
+			bBuf = Buffer.from options.b, 'hex'
 			@bInt = transform.buffer.toBigInteger bBuf
 			@BBuf = @srp.B b: @bInt, v: transform.buffer.toBigInteger @vBuf
 			callback()
@@ -34,7 +34,7 @@ class Server
 		return @saltBuf.toString 'hex'
 
 	setClientPublicKey: (hexA) ->
-		@ABuf = new Buffer hexA, 'hex'
+		@ABuf = Buffer.from hexA, 'hex'
 
 		ABigInt = transform.buffer.toBigInteger @ABuf
 
@@ -58,7 +58,7 @@ class Server
 		return @KBuf.toString 'hex'
 
 	checkClientProof: (M1hex) ->
-		clientM1Buf = new Buffer M1hex, 'hex'
+		clientM1Buf = Buffer.from M1hex, 'hex'
 		@M1Buf = @srp.M1 A: @ABuf, B: @BBuf, K: @KBuf
 
 		result = @M1Buf.toString('hex') is clientM1Buf.toString('hex')

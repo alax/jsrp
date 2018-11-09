@@ -6,9 +6,9 @@ SRPServer = require '../src/server'
 client = new SRPClient()
 server = new SRPServer()
 
-I = new Buffer "alice"
-P = new Buffer "password123"
-s = new Buffer 'beb25379d1a8581eb5a727673a2441ee', 'hex'
+I = Buffer.from "alice"
+P = Buffer.from "password123"
+s = Buffer.from 'beb25379d1a8581eb5a727673a2441ee', 'hex'
 
 k_expected = '7556aa045aef2cdd07abaf0f665c3e818913186f'
 x_expected = '94b7555aabe9127cc58ccf4993db6cf84d16c124'
@@ -19,8 +19,8 @@ v_expected = '7e273de8 696ffc4f 4e337d05 b4b375be b0dde156 9e8fa00a 9886d812
               e955a5e2 9e7ab245 db2be315 e2099afb'
 v_expected = transform.cleanHex v_expected
 
-a = new Buffer '60975527035cf2ad1989806f0407210bc81edc04e2762a56afd529ddda2d4393', 'hex'
-b = new Buffer 'e487cb59d31ac550471e81f00f6928e01dda08e974a004f49e61f5d105284d20', 'hex'
+a = Buffer.from '60975527035cf2ad1989806f0407210bc81edc04e2762a56afd529ddda2d4393', 'hex'
+b = Buffer.from 'e487cb59d31ac550471e81f00f6928e01dda08e974a004f49e61f5d105284d20', 'hex'
 
 A_expected = '61d5e490 f6f1b795 47b0704c 436f523d d0e560f0 c64115bb 72557ec4
               4352e890 3211c046 92272d8b 2d1a5358 a2cf1b6e 0bfcf99f 921530ec

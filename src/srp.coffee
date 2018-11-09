@@ -21,7 +21,7 @@ class SRP
 
 		identifierPasswordHash = createHash(@params.hash)
 			.update(I)
-			.update(new Buffer(':'))
+			.update(Buffer.from(':'))
 			.update(P)
 			.digest()
 
