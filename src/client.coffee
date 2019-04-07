@@ -8,6 +8,7 @@ class Client
 	init: (options, callback) ->
 		@IBuf = Buffer.from options.username
 		@PBuf = Buffer.from options.password
+		@compatibility = options.compatibility == true
 
 		length = options.length || 4096;
 		@srp = new SRP length
@@ -22,6 +23,7 @@ class Client
 	debugInit: (options, callback) ->
 		@IBuf = Buffer.from options.username
 		@PBuf = Buffer.from options.password
+		@compatibility = options.compatibility == true
 
 		length = options.length || 4096;
 		@srp = new SRP length
@@ -66,13 +68,20 @@ class Client
 
 	# Get our M1 in Hex value to send to the server for verification.
 	getProof: () ->
-		@M1Buf = @srp.M1 A: @ABuf, B: @BBuf, K: @KBuf
+		if @compatibility
+			@M1Buf = @srp.M1 A: @ABuf, B: @BBuf, K: @SBuf
+		else
+			@M1Buf = @srp.M1 A: @ABuf, B: @BBuf, K: @KBuf
+
 		return @M1Buf.toString 'hex'
 
 	# Allow us to verify the server's M2 response.
 	checkServerProof: (hexM2) ->
 		ServerM2Buf = Buffer.from hexM2, 'hex'
-		@M2Buf = @srp.M2 A: @ABuf, M: @M1Buf, K: @KBuf
+		if @compatibility
+			@M2Buf = @srp.M2 A: @ABuf, M: @M1Buf, K: @SBuf
+		else
+			@M2Buf = @srp.M2 A: @ABuf, M: @M1Buf, K: @KBuf
 
 		result = @M2Buf.toString('hex') is ServerM2Buf.toString('hex')
 		return result

@@ -87,7 +87,9 @@ client.getSharedKey() === server.getSharedKey() // will be true
 `Client` methods:
 
 - **`init(options, callback)`**
-	- `options` should be an object containing a username and a password. `{ username: 'username', password: 'password' }`. You may also pass a length property, which will allow you to select  the size of your parameters. It defaults to 4096.
+	- `options` should be an object containing a username and a password. `{ username: 'username', password: 'password' }`. 
+	    - You may also pass a `length` property, which will allow you to select  the size of your parameters. It defaults to 4096. 
+	    - You may also pass a `compatibility` property (Boolean). If set to true, proofs will be generated with ***S*** instead of ***K*** to be compatible with specific other SRP implementations.
 	- `callback` will be called when the client instance is ready to use.
 - **`getPublicKey() -> Hex A value`**
 	- Return the hex representation of the client's ***A*** value, suitable for sending over the network.

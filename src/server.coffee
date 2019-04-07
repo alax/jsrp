@@ -7,6 +7,7 @@ class Server
 	init: (options, callback) ->
 		@vBuf = Buffer.from options.verifier, 'hex'
 		@saltBuf = Buffer.from options.salt, 'hex'
+		@compatibility = options.compatibility == true
 
 		length = options.length || 4096;
 		@srp = new SRP length
@@ -59,13 +60,19 @@ class Server
 
 	checkClientProof: (M1hex) ->
 		clientM1Buf = Buffer.from M1hex, 'hex'
-		@M1Buf = @srp.M1 A: @ABuf, B: @BBuf, K: @KBuf
+		if @compatibility
+			@M1Buf = @srp.M1 A: @ABuf, B: @BBuf, K: @SBuf
+		else
+			@M1Buf = @srp.M1 A: @ABuf, B: @BBuf, K: @KBuf
 
 		result = @M1Buf.toString('hex') is clientM1Buf.toString('hex')
 		return result
 
 	getProof: () ->
-		@M2Buf = @srp.M2 A: @ABuf, M: @M1Buf, K: @KBuf
+		if @compatibility
+			@M2Buf = @srp.M2 A: @ABuf, M: @M1Buf, K: @SBuf
+		else
+			@M2Buf = @srp.M2 A: @ABuf, M: @M1Buf, K: @KBuf
 
 		result = @M2Buf.toString('hex')
 		return result
